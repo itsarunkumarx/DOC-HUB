@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DocHub Documents — Browse all documents across categories with advanced filtering and 3D card interface." />
+  <title>DocHub — Document Library</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+
+  <style>
+    .page-hero {
+      min-height: 38vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      padding: 100px 20px 40px;
+    }
+
+    @media (max-width: 768px) {
+      .page-hero { min-height: 30vh; padding: 80px 20px 30px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="cursor-light"></div>
+
+  <canvas id="particle-canvas"></canvas>
+  <div class="aurora-container" aria-hidden="true">
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+  </div>
+  <div class="floating-shapes" aria-hidden="true"></div>
+
+  <!-- Navbar -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">⬡</div>
+      <span class="nav-logo-text">DOCHUB</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html"><span class="nav-link-inner">🏠 Home</span></a></li>
+      <li><a href="documents.html" class="active"><span class="nav-link-inner">📁 Documents</span></a></li>
+      <li><a href="index.html#categories"><span class="nav-link-inner">🗂️ Categories</span></a></li>
+      <li><a href="index.html#search-section"><span class="nav-link-inner">🔍 Search</span></a></li>
+      <li><a href="about.html"><span class="nav-link-inner">💫 About</span></a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="nav-search-btn" id="nav-search-btn" aria-label="Search">🔍</button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="index.html">🏠 Home</a>
+    <a href="documents.html" class="active">📁 Documents</a>
+    <a href="index.html#categories">🗂️ Categories</a>
+    <a href="index.html#search-section">🔍 Search</a>
+    <a href="about.html">💫 About</a>
+    <a href="admin.html">⚙️ Admin</a>
+  </div>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="hero-grid-overlay" aria-hidden="true"></div>
+    <div class="hero-glow-orb hero-glow-orb-1" aria-hidden="true"></div>
+    <div>
+      <div class="hero-badge reveal">
+        <span class="hero-badge-dot"></span>
+        DIGITAL ARCHIVE
+      </div>
+      <h1 class="hero-title reveal delay-1" style="font-size: clamp(2.5rem, 6vw, 4.5rem);">
+        <span class="hero-title-line1">DOCUMENT</span>
+        <span class="hero-title-line2">LIBRARY</span>
+      </h1>
+      <p class="hero-subtitle reveal delay-2" style="max-width: 500px; margin: 0 auto;">
+        Your complete document universe. Browse, filter, search, and interact with all documents.
+      </p>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <section style="padding: 20px 0 0;">
+    <div class="container">
+      <div class="search-container reveal" style="max-width: 600px;">
+        <div class="search-wrapper">
+          <input type="text" id="search-input" class="search-input" placeholder="Search documents..." aria-label="Search" autocomplete="off" />
+          <span class="search-icon">🔍</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Documents Section -->
+  <section id="documents" style="padding: 40px 0 100px;">
+    <div class="container">
+      <div class="docs-controls">
+        <div class="docs-filter-tabs" id="filter-tabs" role="tablist">
+          <!-- Rendered by JS -->
+        </div>
+        <div id="docs-count" style="font-family: var(--font-ui); font-size: 0.85rem; color: var(--text-muted); letter-spacing: 1px;">
+          18 documents
+        </div>
+      </div>
+
+      <div class="docs-grid" id="docs-grid" aria-label="Document cards">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Search Results Section -->
+      <div id="search-results-section" style="display: none; margin-top: 20px;">
+        <p id="search-count" style="font-family:var(--font-ui); font-size:0.85rem; color:var(--neon-blue); letter-spacing:2px; margin-bottom:20px; text-transform:uppercase; text-align:center;"></p>
+        <div class="search-results-grid" id="search-results-grid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-bottom" style="justify-content: center; border-top: 1px solid rgba(0,212,255,0.08); padding-top: 30px;">
+        <p>© 2025 DocHub — Futuristic Document Universe</p>
+        <p style="color: var(--neon-blue); font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 2px;">BUILT FOR THE FUTURE ⚡</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Document Viewer Modal -->
+  <div id="viewer-modal" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-panel">
+      <div class="modal-header">
+        <span class="modal-title" id="modal-doc-title">DOCUMENT VIEWER</span>
+        <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-preview">
+          <div class="modal-preview-placeholder">
+            <span class="modal-preview-icon" id="modal-icon">📄</span>
+            <div style="font-family: var(--font-ui); font-size: 1rem; font-weight: 700; color: var(--neon-blue); letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase;">Document Preview</div>
+            <p id="modal-preview-title" style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; max-width: 300px; margin: 0 auto;"></p>
+          </div>
+        </div>
+        <div class="modal-sidebar">
+          <div style="font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; letter-spacing: 3px; color: var(--neon-blue); text-transform: uppercase; padding-bottom: 10px; border-bottom: 1px solid rgba(0,212,255,0.1);">
+            📋 Document Info
+          </div>
+          <div class="modal-meta-group">
+            <div class="modal-meta-label">Title</div>
+            <div class="modal-meta-value" id="modal-meta-title">—</div>
+          </div>
+          <div class="modal-meta-group">
+            <div class="modal-meta-label">Owner</div>
+            <div class="modal-meta-value" id="modal-meta-owner">—</div>
+          </div>
+          <div class="modal-meta-group">
+            <div class="modal-meta-label">Department</div>
+            <div class="modal-meta-value" id="modal-meta-dept">—</div>
+          </div>
+          <div class="modal-meta-group">
+            <div class="modal-meta-label">Category</div>
+            <div class="modal-meta-value" id="modal-meta-category">—</div>
+          </div>
+          <div class="modal-meta-group">
+            <div class="modal-meta-label">Upload Date</div>
+            <div class="modal-meta-value" id="modal-meta-date">—</div>
+          </div>
+          <div class="modal-actions">
+            <button class="modal-action-btn modal-btn-primary" onclick="downloadDocument()">⬇️ Download</button>
+            <button class="modal-action-btn modal-btn-ghost" onclick="printDocument()">🖨️ Print</button>
+            <button class="modal-action-btn modal-btn-ghost" onclick="shareDocument()">🔗 Share</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/documents.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/effects.js"></script>
+</body>
+</html>

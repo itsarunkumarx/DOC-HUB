@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DocHub About — Learn about our futuristic document management platform, features, and vision." />
+  <title>DocHub — About the Platform</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+
+  <style>
+    .page-hero {
+      min-height: 45vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      padding: 100px 20px 60px;
+    }
+
+    .vision-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 60px;
+    }
+
+    .vision-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 35px 25px;
+      text-align: center;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      transition: all var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vision-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--card-color, var(--neon-blue)), transparent);
+    }
+
+    .vision-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--card-color, var(--neon-blue));
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 30px rgba(0,212,255,0.1);
+    }
+
+    .vision-card-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      display: block;
+      filter: drop-shadow(0 0 15px var(--card-color, var(--neon-blue)));
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .vision-card-title {
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--card-color, var(--neon-blue));
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .vision-card-text {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .tech-pill {
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.25);
+      color: var(--neon-blue);
+      transition: all var(--transition-fast);
+    }
+
+    .tech-pill:hover {
+      background: rgba(0,212,255,0.2);
+      box-shadow: 0 0 15px rgba(0,212,255,0.2);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .vision-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="cursor-light"></div>
+
+  <canvas id="particle-canvas"></canvas>
+  <div class="aurora-container" aria-hidden="true">
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+  </div>
+  <div class="floating-shapes" aria-hidden="true"></div>
+
+  <!-- Navbar -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">⬡</div>
+      <span class="nav-logo-text">DOCHUB</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html"><span class="nav-link-inner">🏠 Home</span></a></li>
+      <li><a href="index.html#documents"><span class="nav-link-inner">📁 Documents</span></a></li>
+      <li><a href="index.html#categories"><span class="nav-link-inner">🗂️ Categories</span></a></li>
+      <li><a href="index.html#search-section"><span class="nav-link-inner">🔍 Search</span></a></li>
+      <li><a href="about.html" class="active"><span class="nav-link-inner">💫 About</span></a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="index.html">🏠 Home</a>
+    <a href="index.html#documents">📁 Documents</a>
+    <a href="index.html#search-section">🔍 Search</a>
+    <a href="about.html" class="active">💫 About</a>
+    <a href="admin.html">⚙️ Admin</a>
+  </div>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="hero-grid-overlay" aria-hidden="true"></div>
+    <div class="hero-glow-orb hero-glow-orb-1" aria-hidden="true"></div>
+
+    <div>
+      <div class="hero-badge reveal">
+        <span class="hero-badge-dot"></span>
+        PLATFORM OVERVIEW
+      </div>
+      <h1 class="hero-title reveal delay-1" style="font-size: clamp(2.5rem, 7vw, 5rem);">
+        <span class="hero-title-line1">ABOUT</span>
+        <span class="hero-title-line2">DOCHUB</span>
+      </h1>
+      <p class="hero-subtitle reveal delay-2" style="max-width: 600px; margin: 0 auto;">
+        A revolutionary futuristic document management platform that combines cutting-edge 3D visuals with powerful document organization.
+      </p>
+    </div>
+  </div>
+
+  <!-- Vision Cards -->
+  <section style="padding: 60px 0 100px;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge reveal">🌌 Our Vision</span>
+        <h2 class="section-title reveal delay-1">Platform Philosophy</h2>
+        <div class="glow-line reveal delay-2"></div>
+      </div>
+
+      <div class="vision-cards">
+        <div class="vision-card reveal delay-1" style="--card-color: #00d4ff;">
+          <span class="vision-card-icon">🌌</span>
+          <div class="vision-card-title">Immersive 3D Universe</div>
+          <p class="vision-card-text">Documents aren't just files — they're portals to knowledge. Our 3D interface transforms document browsing into an immersive spatial experience.</p>
+        </div>
+        <div class="vision-card reveal delay-2" style="--card-color: #b400ff;">
+          <span class="vision-card-icon">⚡</span>
+          <div class="vision-card-title">Zero Latency Platform</div>
+          <p class="vision-card-text">Built entirely with pure HTML, CSS, and JavaScript. No backend, no server delays. Everything runs at the speed of thought, right in your browser.</p>
+        </div>
+        <div class="vision-card reveal delay-3" style="--card-color: #00ff88;">
+          <span class="vision-card-icon">🎨</span>
+          <div class="vision-card-title">Design Excellence</div>
+          <p class="vision-card-text">Combining Apple Vision Pro level elegance with cyberpunk aesthetics. Every pixel, every animation, every interaction is crafted for maximum impact.</p>
+        </div>
+        <div class="vision-card reveal delay-4" style="--card-color: #ff006e;">
+          <span class="vision-card-icon">🔐</span>
+          <div class="vision-card-title">Secure Admin Control</div>
+          <p class="vision-card-text">Comprehensive admin panel with full CRUD operations, category management, and secure login — all without a database or backend.</p>
+        </div>
+        <div class="vision-card reveal delay-5" style="--card-color: #00ffff;">
+          <span class="vision-card-icon">📱</span>
+          <div class="vision-card-title">Universal Responsive</div>
+          <p class="vision-card-text">From mobile to ultra-wide displays, DocHub adapts perfectly. Every breakpoint is carefully crafted for the optimal experience on any device.</p>
+        </div>
+        <div class="vision-card reveal delay-6" style="--card-color: #ff6e00;">
+          <span class="vision-card-icon">🚀</span>
+          <div class="vision-card-title">Future Vision</div>
+          <p class="vision-card-text">Roadmap includes AI-powered categorization, AR/VR document exploration, and spatial computing integration for the next frontier.</p>
+        </div>
+      </div>
+
+      <!-- Tech Stack -->
+      <div style="margin-top: 80px; text-align: center;">
+        <span class="section-badge reveal">🛠️ Built With</span>
+        <h2 class="section-title reveal delay-1" style="margin-bottom: 10px;">Technology Stack</h2>
+        <p class="section-subtitle reveal delay-2">Pure web technologies, maximum performance.</p>
+        <div class="tech-stack reveal delay-3">
+          <span class="tech-pill">HTML5</span>
+          <span class="tech-pill">CSS3</span>
+          <span class="tech-pill">Vanilla JS</span>
+          <span class="tech-pill">Canvas API</span>
+          <span class="tech-pill">Glassmorphism</span>
+          <span class="tech-pill">CSS Animations</span>
+          <span class="tech-pill">Intersection Observer</span>
+          <span class="tech-pill">CSS Grid</span>
+          <span class="tech-pill">CSS Variables</span>
+          <span class="tech-pill">Google Fonts</span>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div style="text-align: center; margin-top: 80px;" class="reveal">
+        <a href="index.html#documents" class="btn-primary">
+          📁 Explore Documents
+        </a>
+        <a href="admin.html" class="btn-secondary" style="margin-left: 15px;">
+          ⚙️ Admin Panel
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-bottom" style="justify-content: center; border-top: 1px solid rgba(0,212,255,0.08); padding-top: 30px;">
+        <p>© 2025 DocHub — Futuristic Document Universe</p>
+        <p style="color: var(--neon-blue); font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 2px;">BUILT FOR THE FUTURE ⚡</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/effects.js"></script>
+</body>
+</html>

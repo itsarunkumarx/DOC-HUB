@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DocHub — The Future of Document Management. A futuristic 3D digital archive platform with glassmorphism design, floating folders, and immersive document experience." />
+  <meta name="keywords" content="document management, digital archive, futuristic, 3D UI, glassmorphism" />
+  <meta name="author" content="DocHub" />
+  <meta property="og:title" content="DocHub — Futuristic Document Universe" />
+  <meta property="og:description" content="Experience document management like never before. 3D folders, floating documents, and cyberpunk aesthetics." />
+  <meta name="theme-color" content="#00d4ff" />
+  <title>DocHub — Futuristic Document Universe</title>
+
+  <!-- Preload critical resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+
+  <style>
+    /* Hero-specific inline critical styles */
+    .hero-doc-float { position: absolute; }
+    .hero-doc-float:nth-child(1) { top: 15%; left: 8%; animation: float-doc-1 8s ease-in-out infinite; }
+    .hero-doc-float:nth-child(2) { top: 30%; right: 6%; animation: float-doc-2 10s ease-in-out -3s infinite; }
+    .hero-doc-float:nth-child(3) { bottom: 20%; left: 12%; animation: float-doc-3 9s ease-in-out -6s infinite; }
+    .hero-doc-float:nth-child(4) { bottom: 25%; right: 10%; animation: float-doc-1 11s ease-in-out -4s infinite; }
+    .hero-doc-float:nth-child(5) { top: 60%; left: 3%; animation: float-doc-2 7s ease-in-out -2s infinite; }
+    .hero-doc-float:nth-child(6) { top: 10%; right: 20%; animation: float-doc-3 12s ease-in-out -8s infinite; }
+
+    /* Quick page-specific additions */
+    .about-card-content { display: flex; flex-direction: column; gap: 10px; }
+    .about-card-icon { font-size: 2rem; margin-bottom: 5px; }
+    .about-card-title { font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--neon-blue); margin-bottom: 4px; }
+    .about-card-value { font-family: var(--font-body); font-size: 0.95rem; color: var(--text-primary); font-weight: 600; }
+    .about-card-sub { font-size: 0.8rem; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <!-- ===== LOADING SCREEN ===== -->
+  <div id="loading-screen">
+    <div class="loading-universe">
+      <div class="loading-ring"></div>
+      <div class="loading-ring"></div>
+      <div class="loading-ring"></div>
+      <div class="loading-logo-center">DH</div>
+    </div>
+    <div class="loading-text">Initializing Document Universe</div>
+    <div class="loading-bar-container">
+      <div class="loading-bar"></div>
+    </div>
+  </div>
+
+  <!-- ===== CUSTOM CURSOR ===== -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <div id="cursor-light"></div>
+
+  <!-- ===== BACKGROUND LAYERS ===== -->
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="aurora-container" aria-hidden="true">
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+  </div>
+
+  <div class="floating-shapes" aria-hidden="true"></div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" id="logo-link">
+      <div class="nav-logo-icon" aria-hidden="true">⬡</div>
+      <span class="nav-logo-text">DOCHUB</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="#hero" class="active" id="nav-home">
+        <span class="nav-link-inner">🏠 Home</span>
+      </a></li>
+      <li><a href="#documents" id="nav-docs">
+        <span class="nav-link-inner">📁 Documents</span>
+      </a></li>
+      <li><a href="#categories" id="nav-cats">
+        <span class="nav-link-inner">🗂️ Categories</span>
+      </a></li>
+      <li><a href="#search-section" id="nav-search-link">
+        <span class="nav-link-inner">🔍 Search</span>
+      </a></li>
+      <li><a href="#about" id="nav-about">
+        <span class="nav-link-inner">💫 About</span>
+      </a></li>
+      <li><a href="admin.html" id="nav-admin">
+        <span class="nav-link-inner">⚙️ Admin</span>
+      </a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="nav-search-btn" id="nav-search-btn" aria-label="Search documents" title="Search">🔍</button>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== MOBILE NAV ===== -->
+  <div class="mobile-nav" id="mobile-nav" role="dialog" aria-label="Mobile navigation">
+    <a href="#hero" class="active">🏠 Home</a>
+    <a href="#documents">📁 Documents</a>
+    <a href="#categories">🗂️ Categories</a>
+    <a href="#search-section">🔍 Search</a>
+    <a href="#about">💫 About</a>
+    <a href="admin.html">⚙️ Admin</a>
+  </div>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section id="hero">
+    <!-- Grid overlay -->
+    <div class="hero-grid-overlay" aria-hidden="true"></div>
+
+    <!-- Glow orbs -->
+    <div class="hero-glow-orb hero-glow-orb-1" aria-hidden="true"></div>
+    <div class="hero-glow-orb hero-glow-orb-2" aria-hidden="true"></div>
+
+    <!-- Floating documents -->
+    <div class="hero-float-elements" aria-hidden="true">
+      <div class="hero-doc-float">📄</div>
+      <div class="hero-doc-float">📊</div>
+      <div class="hero-doc-float">📋</div>
+      <div class="hero-doc-float">🗂️</div>
+      <div class="hero-doc-float">🔬</div>
+      <div class="hero-doc-float">🏆</div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="hero-content">
+      <div class="tagline-text">⚡ Next-Generation Platform</div>
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        FUTURISTIC DOCUMENT MANAGEMENT
+      </div>
+
+      <h1 class="hero-title">
+        <span class="hero-title-line1">WELCOME TO</span>
+        <span class="hero-title-line2 glitch-text" data-text="DOCHUB">DOCHUB</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        <span class="typewriter"></span>
+        <span class="cursor-blink">|</span>
+      </p>
+
+      <p class="hero-subtitle" style="font-size: 0.95rem; opacity: 0.7; margin-bottom: 40px; margin-top: -25px;">
+        A futuristic 3D document operating system. Access, manage, and explore your entire digital archive through an immersive cyberpunk interface.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#documents" class="btn-primary" id="hero-explore-btn">
+          ⚡ Explore Documents
+        </a>
+        <a href="#about" class="btn-secondary" id="hero-learn-btn">
+          💫 Learn More
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" aria-hidden="true">
+      <div class="scroll-indicator-mouse">
+        <div class="scroll-indicator-wheel"></div>
+      </div>
+      <span class="scroll-indicator-text">Scroll</span>
+    </div>
+  </section>
+
+  <!-- ===== STATS SECTION ===== -->
+  <section id="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card reveal delay-1">
+          <span class="stat-icon">📄</span>
+          <div class="stat-number" data-target="22" data-suffix="">0</div>
+          <div class="stat-label">Total Documents</div>
+        </div>
+        <div class="stat-card reveal delay-2">
+          <span class="stat-icon">🗂️</span>
+          <div class="stat-number" data-target="7" data-suffix="">0</div>
+          <div class="stat-label">Categories</div>
+        </div>
+        <div class="stat-card reveal delay-3">
+          <span class="stat-icon">📁</span>
+          <div class="stat-number" data-target="9" data-suffix="">0</div>
+          <div class="stat-label">Real Resumes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CATEGORIES SECTION ===== -->
+  <section id="categories">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge reveal">🗂️ Document Vault</span>
+        <h2 class="section-title reveal delay-1">Explore Categories</h2>
+        <p class="section-subtitle reveal delay-2">Navigate through our 3D folder system. Each category is a universe of organized knowledge.</p>
+        <div class="glow-line reveal delay-3"></div>
+      </div>
+
+      <div class="folders-grid" id="folders-grid" aria-label="Document categories">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DOCUMENTS SECTION ===== -->
+  <section id="documents">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge reveal">📁 Digital Archive</span>
+        <h2 class="section-title reveal delay-1">All Documents</h2>
+        <p class="section-subtitle reveal delay-2">Browse through our complete document library. Each file is a portal to knowledge.</p>
+        <div class="glow-line reveal delay-3"></div>
+      </div>
+
+      <div class="docs-controls">
+        <div class="docs-filter-tabs" id="filter-tabs" role="tablist" aria-label="Filter documents">
+          <!-- Rendered by JS -->
+        </div>
+        <div id="docs-count" style="font-family: var(--font-ui); font-size: 0.85rem; color: var(--text-muted); letter-spacing: 1px;">
+          22 documents
+        </div>
+      </div>
+
+      <div class="docs-grid" id="docs-grid" aria-label="Document cards">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="view-all-wrapper">
+        <button class="btn-secondary reveal" onclick="setFilter('All')" id="view-all-btn">
+          🌐 View All Documents
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SEARCH SECTION ===== -->
+  <section id="search-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge reveal">🔍 Smart Search</span>
+        <h2 class="section-title reveal delay-1">Find Anything Instantly</h2>
+        <p class="section-subtitle reveal delay-2">Search across titles, owners, departments, and categories in real-time.</p>
+        <div class="glow-line reveal delay-3"></div>
+      </div>
+
+      <div class="search-container reveal delay-2">
+        <div class="search-wrapper">
+          <input
+            type="text"
+            id="search-input"
+            class="search-input"
+            placeholder="Search documents, owners, departments..."
+            aria-label="Search documents"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <span class="search-icon" aria-hidden="true">🔍</span>
+        </div>
+
+        <!-- Search hints -->
+        <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center;">
+          <span onclick="document.getElementById('search-input').value='Research'; document.getElementById('search-input').dispatchEvent(new Event('input'));"
+                style="cursor:pointer; padding: 5px 14px; border-radius: 50px; background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-ui); transition: all 0.2s ease;"
+                onmouseover="this.style.borderColor='var(--neon-blue)'; this.style.color='var(--neon-blue)';"
+                onmouseout="this.style.borderColor='rgba(0,212,255,0.2)'; this.style.color='var(--text-muted)';">
+            🔬 Research
+          </span>
+          <span onclick="document.getElementById('search-input').value='Certificate'; document.getElementById('search-input').dispatchEvent(new Event('input'));"
+                style="cursor:pointer; padding: 5px 14px; border-radius: 50px; background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-ui); transition: all 0.2s ease;"
+                onmouseover="this.style.borderColor='var(--neon-blue)'; this.style.color='var(--neon-blue)';"
+                onmouseout="this.style.borderColor='rgba(0,212,255,0.2)'; this.style.color='var(--text-muted)';">
+            🏆 Certificates
+          </span>
+          <span onclick="document.getElementById('search-input').value='Arun'; document.getElementById('search-input').dispatchEvent(new Event('input'));"
+                style="cursor:pointer; padding: 5px 14px; border-radius: 50px; background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-ui); transition: all 0.2s ease;"
+                onmouseover="this.style.borderColor='var(--neon-blue)'; this.style.color='var(--neon-blue)';"
+                onmouseout="this.style.borderColor='rgba(0,212,255,0.2)'; this.style.color='var(--text-muted)';">
+            👤 Arun Kumar
+          </span>
+          <span onclick="document.getElementById('search-input').value='AI'; document.getElementById('search-input').dispatchEvent(new Event('input'));"
+                style="cursor:pointer; padding: 5px 14px; border-radius: 50px; background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-ui); transition: all 0.2s ease;"
+                onmouseover="this.style.borderColor='var(--neon-blue)'; this.style.color='var(--neon-blue)';"
+                onmouseout="this.style.borderColor='rgba(0,212,255,0.2)'; this.style.color='var(--text-muted)';">
+            🤖 AI/ML
+          </span>
+        </div>
+      </div>
+
+      <div id="search-results-section" style="display: none; margin-top: 40px;">
+        <p id="search-count" style="text-align:center; font-family:var(--font-ui); font-size:0.85rem; color:var(--neon-blue); letter-spacing:2px; margin-bottom:20px; text-transform:uppercase;"></p>
+        <div class="search-results-grid" id="search-results-grid">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT SECTION ===== -->
+  <section id="about">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge reveal">💫 About DocHub</span>
+        <h2 class="section-title reveal delay-1">The Future Is Here</h2>
+        <p class="section-subtitle reveal delay-2">Built for the next generation of document management. Where technology meets aesthetics.</p>
+        <div class="glow-line reveal delay-3"></div>
+      </div>
+
+      <div class="about-grid">
+        <!-- 3D Visual Cards -->
+        <div class="about-visual" style="perspective: 1200px;">
+          <div class="about-card-3d">
+            <div class="about-card-content">
+              <span class="about-card-icon">📊</span>
+              <div class="about-card-title">Platform Overview</div>
+              <div class="about-card-value">18 Documents</div>
+              <div class="about-card-sub">Across 6 intelligent categories</div>
+            </div>
+          </div>
+          <div class="about-card-3d">
+            <div class="about-card-content">
+              <span class="about-card-icon">⚡</span>
+              <div class="about-card-title">Performance</div>
+              <div class="about-card-value">Zero Latency</div>
+              <div class="about-card-sub">Pure browser-based platform</div>
+            </div>
+          </div>
+          <div class="about-card-3d">
+            <div class="about-card-content">
+              <span class="about-card-icon">🔐</span>
+              <div class="about-card-title">Security</div>
+              <div class="about-card-value">Admin Protected</div>
+              <div class="about-card-sub">Secure admin access control</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features List -->
+        <div class="about-features">
+          <h3 style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; background: linear-gradient(135deg, var(--text-primary), var(--neon-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="reveal">
+            Why DocHub?
+          </h3>
+          <p style="color: var(--text-muted); margin-bottom: 30px; line-height: 1.7; font-size: 0.95rem;" class="reveal delay-1">
+            A revolutionary approach to document management combining futuristic 3D UI with practical functionality.
+          </p>
+
+          <div class="feature-item reveal delay-1">
+            <div class="feature-icon">🌌</div>
+            <div class="feature-text">
+              <h3>3D Document Universe</h3>
+              <p>Experience documents in a fully immersive 3D space with floating folders, interactive cards, and depth-aware navigation.</p>
+            </div>
+          </div>
+
+          <div class="feature-item reveal delay-2">
+            <div class="feature-icon">⚡</div>
+            <div class="feature-text">
+              <h3>Real-Time Search</h3>
+              <p>Instant document discovery with live search across titles, owners, departments, and categories with highlighted results.</p>
+            </div>
+          </div>
+
+          <div class="feature-item reveal delay-3">
+            <div class="feature-icon">🎨</div>
+            <div class="feature-text">
+              <h3>Glassmorphism Design</h3>
+              <p>Cutting-edge visual design combining glassmorphism, neon glow, and cyberpunk aesthetics for a premium experience.</p>
+            </div>
+          </div>
+
+          <div class="feature-item reveal delay-4">
+            <div class="feature-icon">📱</div>
+            <div class="feature-text">
+              <h3>Fully Responsive</h3>
+              <p>Perfectly optimized for all devices from mobile to ultra-wide desktop with adaptive animations and layouts.</p>
+            </div>
+          </div>
+
+          <div class="feature-item reveal delay-5">
+            <div class="feature-icon">🔐</div>
+            <div class="feature-text">
+              <h3>Admin Control Panel</h3>
+              <p>Powerful admin interface to add, edit, delete documents and manage categories with a secure login system.</p>
+            </div>
+          </div>
+
+          <div class="feature-item reveal delay-6">
+            <div class="feature-icon">🚀</div>
+            <div class="feature-text">
+              <h3>Zero Backend</h3>
+              <p>Pure HTML, CSS, and JavaScript. No server required. Blazing fast performance with no loading delays.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div style="margin-top: 100px;">
+        <h3 class="reveal" style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 50px; color: var(--neon-blue);">
+          Platform Roadmap
+        </h3>
+        <div class="timeline" style="max-width: 600px; margin: 0 auto;">
+          <div class="timeline-item">
+            <strong style="color: var(--neon-blue); font-family: var(--font-ui);">v1.0 — Present</strong>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">Core 3D platform launch with glassmorphism UI and full document management.</p>
+          </div>
+          <div class="timeline-item">
+            <strong style="color: var(--neon-purple); font-family: var(--font-ui);">v2.0 — Coming Soon</strong>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">AI-powered document categorization and smart tagging system.</p>
+          </div>
+          <div class="timeline-item">
+            <strong style="color: var(--neon-green); font-family: var(--font-ui);">v3.0 — Future Vision</strong>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;">AR/VR document exploration with spatial computing integration.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="display: inline-flex; margin-bottom: 5px;">
+            <div class="nav-logo-icon">⬡</div>
+            <span class="nav-logo-text">DOCHUB</span>
+          </a>
+          <p>The next-generation futuristic document management platform. Experience documents in a whole new dimension.</p>
+        </div>
+        <div>
+          <div class="footer-heading">Navigation</div>
+          <ul class="footer-links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#documents">Documents</a></li>
+            <li><a href="#categories">Categories</a></li>
+            <li><a href="#search-section">Search</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Platform</div>
+          <ul class="footer-links">
+            <li><a href="#about">About DocHub</a></li>
+            <li><a href="admin.html">Admin Panel</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Categories</div>
+          <ul class="footer-links">
+            <li><a href="#categories" onclick="filterByCategory('Projects')">Projects</a></li>
+            <li><a href="#categories" onclick="filterByCategory('Reports')">Reports</a></li>
+            <li><a href="#categories" onclick="filterByCategory('Certificates')">Certificates</a></li>
+            <li><a href="#categories" onclick="filterByCategory('Research Papers')">Research</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 DocHub — Futuristic Document Universe. All rights reserved.</p>
+        <p style="color: var(--neon-blue); font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 2px;">BUILT FOR THE FUTURE ⚡</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== DOCUMENT VIEWER MODAL ===== -->
+  <div id="viewer-modal" role="dialog" aria-modal="true" aria-labelledby="modal-doc-title">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-panel">
+      <div class="modal-header">
+        <span class="modal-title" id="modal-doc-title">DOCUMENT VIEWER</span>
+        <button class="modal-close" id="modal-close" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-preview">
+          <div class="modal-preview-placeholder" id="modal-preview-container">
+            <!-- PDF preview or placeholder injected by JS -->
+          </div>
+        </div>
+        <div class="modal-sidebar">
+          <div style="font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; letter-spacing: 3px; color: var(--neon-blue); text-transform: uppercase; padding-bottom: 10px; border-bottom: 1px solid rgba(0,212,255,0.1);">
+            📋 Document Info
+          </div>
+          <div class="modal-meta-group">
+            <div class="modal-meta-label">Title</div>
+            <div class="modal-meta-value" id="modal-meta-title">—</div>
+          </div>
+          <div class="modal-meta-group">
+            <div class="modal-meta-label">Owner</div>
+            <div class="modal-meta-value" id="modal-meta-owner">—</div>
+          </div>
+          <div class="modal-meta-group">
+            <div class="modal-meta-label">Department</div>
+            <div class="modal-meta-value" id="modal-meta-dept">—</div>
+          </div>
+          <div class="modal-meta-group">
+            <div class="modal-meta-label">Category</div>
+            <div class="modal-meta-value" id="modal-meta-category">—</div>
+          </div>
+          <div class="modal-meta-group">
+            <div class="modal-meta-label">Upload Date</div>
+            <div class="modal-meta-value" id="modal-meta-date">—</div>
+          </div>
+
+          <div class="modal-actions">
+            <button class="modal-action-btn modal-btn-primary" onclick="downloadDocument()">
+              ⬇️ Download
+            </button>
+            <button class="modal-action-btn modal-btn-ghost" onclick="printDocument()">
+              🖨️ Print
+            </button>
+            <button class="modal-action-btn modal-btn-ghost" onclick="shareDocument()">
+              🔗 Share Link
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="js/main.js"></script>
+  <script src="js/documents.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/effects.js"></script>
+</body>
+</html>
